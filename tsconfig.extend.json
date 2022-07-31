@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@App": ["./App.tsx"],
+
+      "@components": ["./components"],
+      "@components/*": ["./components/*"],
+      "@contexts": ["./contexts"],
+      "@contexts/*": ["./contexts/*"],
+      "@hooks": ["./hooks"],
+      "@hooks/*": ["./hooks/*"],
+      "@pages": ["./pages"],
+      "@pages/*": ["./pages/*"],
+      "@styles": ["./styles"],
+      "@styles/*": ["./styles/*"],
+      "@usertypes": ["./types"],
+      "@usertypes/*": ["./types/*"],
+      "@utils": ["./utils"],
+      "@utils/*": ["./utils/*"]
+    }
+  }
+}
