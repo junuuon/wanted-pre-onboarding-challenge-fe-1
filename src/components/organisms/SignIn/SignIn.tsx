@@ -9,7 +9,7 @@ import {
   TextField,
 } from '@mui/material';
 
-import { login } from '@api/auth';
+import { signIn } from '@api/auth';
 import errorMessage from '@utils/errorMessages';
 
 const SignIn = () => {
@@ -32,8 +32,7 @@ const SignIn = () => {
     }),
     onSubmit: async (values, { setErrors, setStatus, setSubmitting }) => {
       try {
-        const response = await login(values.email, values.password);
-        localStorage.setItem('token', response.token);
+        await signIn(values.email, values.password);
         navigate('/');
       } catch (error: unknown) {
         setStatus({ success: false });

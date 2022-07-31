@@ -1,14 +1,19 @@
-import { AuthResponse } from '@usertypes/auth';
-import { fetchJSON } from '@utils/api-helper';
+import { fetchAuth } from '@utils/api-helper';
 
-export const login = (email: string, password: string) =>
-  fetchJSON('POST', '/users/login', '', {
+const LOCALSTORAGE_ID = 'token';
+
+export const signIn = (email: string, password: string) =>
+  fetchAuth('/users/login', {
     email,
     password,
-  }) as Promise<AuthResponse>;
+  }).then((response) => {
+    localStorage.setItem(LOCALSTORAGE_ID, response.token);
+  });
 
 export const signUp = (email: string, password: string) =>
-  fetchJSON('POST', '/users/create', '', {
+  fetchAuth('/users/create', {
     email,
     password,
-  }) as Promise<AuthResponse>;
+  });
+
+export const signOut = () => localStorage.removeItem(LOCALSTORAGE_ID);

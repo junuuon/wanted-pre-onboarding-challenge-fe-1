@@ -1,15 +1,11 @@
-export const fetchJSON = (
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE',
-  url: string,
-  token?: string,
-  data?: {},
-) =>
-  new Promise((resolve, reject) => {
+import { AuthResponse } from '@usertypes/auth';
+
+export const fetchAuth = (url: string, data: {}) =>
+  new Promise<AuthResponse>((resolve, reject) =>
     fetch(process.env.REACT_APP_API_URL + url, {
-      method,
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
       },
       body: data ? JSON.stringify(data) : null,
     })
@@ -26,5 +22,5 @@ export const fetchJSON = (
       })
       .catch((error) => {
         reject(error);
-      });
-  });
+      }),
+  );
