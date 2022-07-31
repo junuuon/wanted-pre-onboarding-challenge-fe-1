@@ -1,9 +1,13 @@
 import { useNavigate, Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import { Checkbox, FormControlLabel, Button } from '@mui/material';
-
-import { Alert, TextField } from './SignIn.style';
+import {
+  Alert,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  TextField,
+} from '@mui/material';
 
 import { login } from '@api/auth';
 import errorMessage from '@utils/errorMessages';
@@ -42,7 +46,7 @@ const SignIn = () => {
   return (
     <form noValidate onSubmit={formik.handleSubmit}>
       {formik.errors.submit && (
-        <Alert mt={2} mb={3} severity="warning">
+        <Alert sx={{ mt: 2, mb: 3 }} severity="warning">
           {formik.errors.submit}
         </Alert>
       )}
@@ -56,7 +60,7 @@ const SignIn = () => {
         helperText={formik.touched.email && formik.errors.email}
         onBlur={formik.handleBlur}
         onChange={formik.handleChange}
-        my={2}
+        sx={{ my: 1 }}
       />
       <TextField
         type="password"
@@ -68,7 +72,7 @@ const SignIn = () => {
         helperText={formik.touched.password && formik.errors.password}
         onBlur={formik.handleBlur}
         onChange={formik.handleChange}
-        my={2}
+        sx={{ my: 1 }}
       />
       <FormControlLabel
         control={<Checkbox value="remember" color="primary" />}
