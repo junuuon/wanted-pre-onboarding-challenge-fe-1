@@ -1,13 +1,11 @@
 import { Helmet } from 'react-helmet-async';
-import SignInComponent from '@components/organisms/SignIn/SignIn';
+import SignInComponent from '@components/organisms/SignIn';
 
-function SignIn() {
-  return (
-    <>
-      <Helmet title="Sign In" />
-      <SignInComponent />
-    </>
-  );
-}
+const SignIn = () => (
+  <>
+    <Helmet title="Sign In" />
+    <SignInComponent />
+  </>
+);
 
 export default SignIn;

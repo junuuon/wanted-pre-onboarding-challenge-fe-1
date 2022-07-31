@@ -33,7 +33,7 @@ const SignIn = () => {
     onSubmit: async (values, { setErrors, setStatus, setSubmitting }) => {
       try {
         const response = await login(values.email, values.password);
-        console.log(response);
+        localStorage.setItem('token', response.token);
         navigate('/');
       } catch (error: unknown) {
         setStatus({ success: false });
@@ -83,17 +83,12 @@ const SignIn = () => {
         fullWidth
         variant="contained"
         color="primary"
-        disabled={formik.isSubmitting}
+        disabled={!(formik.isValid && formik.dirty)}
       >
         Sign in
       </Button>
-      <Button
-        component={Link}
-        to="/auth/reset-password"
-        fullWidth
-        color="primary"
-      >
-        Forgot password
+      <Button component={Link} to="/auth/sign-up" fullWidth color="primary">
+        Sign up
       </Button>
     </form>
   );
