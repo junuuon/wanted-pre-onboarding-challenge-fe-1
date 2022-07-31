@@ -1,22 +1,19 @@
-import React from 'react';
+import { useRoutes } from 'react-router-dom';
+import { HelmetProvider, Helmet } from 'react-helmet-async';
+
+import routes from './routes';
 
 function App() {
+  const content = useRoutes(routes);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <HelmetProvider>
+      <Helmet
+        titleTemplate="%s | wanted-pre-onboarding-challenge-fe"
+        defaultTitle="wanted-pre-onboarding-challenge-fe"
+      />
+      {content}
+    </HelmetProvider>
   );
 }
 
