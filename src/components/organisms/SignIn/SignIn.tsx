@@ -1,0 +1,98 @@
+import { useNavigate, Link } from 'react-router-dom';
+import * as Yup from 'yup';
+import { useFormik } from 'formik';
+import { Checkbox, FormControlLabel, Button } from '@mui/material';
+
+import { Alert, TextField } from './SignIn.style';
+
+import { login } from '@api/auth';
+import errorMessage from '@utils/errorMessages';
+
+const SignIn = () => {
+  const navigate = useNavigate();
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+      submit: false,
+    },
+    validationSchema: Yup.object().shape({
+      email: Yup.string()
+        .email('Must be a valid email')
+        .max(255)
+        .required('Email is required'),
+      password: Yup.string()
+        .min(8, 'Password is too short - should be 8 chars minimum.')
+        .max(255)
+        .required('Password is required'),
+    }),
+    onSubmit: async (values, { setErrors, setStatus, setSubmitting }) => {
+      try {
+        const response = await login(values.email, values.password);
+        console.log(response);
+        navigate('/');
+      } catch (error: unknown) {
+        setStatus({ success: false });
+        setErrors({ submit: errorMessage(error) });
+        setSubmitting(false);
+      }
+    },
+  });
+
+  return (
+    <form noValidate onSubmit={formik.handleSubmit}>
+      {formik.errors.submit && (
+        <Alert mt={2} mb={3} severity="warning">
+          {formik.errors.submit}
+        </Alert>
+      )}
+      <TextField
+        type="email"
+        name="email"
+        label="Email Address"
+        value={formik.values.email}
+        error={Boolean(formik.touched.email && formik.errors.email)}
+        fullWidth
+        helperText={formik.touched.email && formik.errors.email}
+        onBlur={formik.handleBlur}
+        onChange={formik.handleChange}
+        my={2}
+      />
+      <TextField
+        type="password"
+        name="password"
+        label="Password"
+        value={formik.values.password}
+        error={Boolean(formik.touched.password && formik.errors.password)}
+        fullWidth
+        helperText={formik.touched.password && formik.errors.password}
+        onBlur={formik.handleBlur}
+        onChange={formik.handleChange}
+        my={2}
+      />
+      <FormControlLabel
+        control={<Checkbox value="remember" color="primary" />}
+        label="Remember me"
+      />
+      <Button
+        type="submit"
+        fullWidth
+        variant="contained"
+        color="primary"
+        disabled={formik.isSubmitting}
+      >
+        Sign in
+      </Button>
+      <Button
+        component={Link}
+        to="/auth/reset-password"
+        fullWidth
+        color="primary"
+      >
+        Forgot password
+      </Button>
+    </form>
+  );
+};
+
+export default SignIn;
