@@ -34,7 +34,7 @@ const SignUp = () => {
     }),
     onSubmit: async (values, { setErrors, setStatus, setSubmitting }) => {
       try {
-        await signUp(values.email, values.password);
+        await signUp({ email: values.email, password: values.password });
         navigate('/auth/sign-in');
       } catch (error: unknown) {
         setStatus({ success: false });

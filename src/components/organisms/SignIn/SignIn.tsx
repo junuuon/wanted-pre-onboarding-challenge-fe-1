@@ -32,7 +32,7 @@ const SignIn = () => {
     }),
     onSubmit: async (values, { setErrors, setStatus, setSubmitting }) => {
       try {
-        await signIn(values.email, values.password);
+        await signIn({ email: values.email, password: values.password });
         navigate('/');
       } catch (error: unknown) {
         setStatus({ success: false });
