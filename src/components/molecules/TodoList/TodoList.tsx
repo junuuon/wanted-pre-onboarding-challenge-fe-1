@@ -14,8 +14,10 @@ const TodoList = ({ todos }: { todos?: Todo[] }) => {
       </Item>
       {todos &&
         todos.length !== 0 &&
-        todos.map((todo) => (
-          <Item onClick={() => navigate(`./${todo.id}`)}>{todo.title}</Item>
+        todos.map((todo, index) => (
+          <Item key={index} onClick={() => navigate(`./${todo.id}`)}>
+            {todo.title}
+          </Item>
         ))}
     </Wrapper>
   );

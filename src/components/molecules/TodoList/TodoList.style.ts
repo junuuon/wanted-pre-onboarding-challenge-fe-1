@@ -2,7 +2,6 @@ import { Paper } from '@mui/material';
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  border: 1px solid red;
   cursor: pointer;
   flex: 400px;
   height: 100%;

@@ -1,15 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-
-import { createTodo, deleteTodo, getTodoById, updateTodo } from '@api/todos';
-import useAuth from '@hooks/useAuth';
 import { Button } from '@mui/material';
-import { ChangeEvent, useEffect, useState } from 'react';
-import { Wrapper, Header } from './Todo.style';
 
 import InputWithLabel from '@components/molecules/InputWithLabel';
+import useTodo from '@hooks/useTodos';
+
+import { Wrapper, Header } from './Todo.style';
 
 const Todo = () => {
-  const { token } = useAuth();
+  const { createTodo, deleteTodo, updateTodo, getTodoById } = useTodo();
   const navigate = useNavigate();
   const { id } = useParams();
   const [isEdit, setIsEdit] = useState(false);
@@ -17,49 +17,53 @@ const Todo = () => {
   const [content, setContent] = useState('');
   const [titleError, setTitleError] = useState('');
 
-  const checkRequired = () => {
-    if (title === '') {
+  const checkRequired = (input: string) => {
+    if (input === '') {
       setTitleError('Title required!');
     } else {
       setTitleError('');
     }
   };
 
-  useEffect(() => {
+  const fetchTodo = useCallback(async () => {
     if (id) {
-      const fetchTodo = async () => {
-        try {
-          const response = await getTodoById(token, id);
-          setContent(response.data.content);
-          setTitle(response.data.title);
-        } catch (error) {
-          alert(error);
-        }
-      };
-      fetchTodo();
+      setIsEdit(false);
+      setTitleError('');
+      try {
+        const response = await getTodoById(id);
+        setContent(response.data.content);
+        setTitle(response.data.title);
+      } catch (error) {
+        alert(error);
+        navigate('/');
+      }
     } else {
+      setContent('');
       setIsEdit(true);
       setTitle('');
-      setContent('');
+      setTitleError('Title required!');
     }
-  }, [id]);
+  }, [getTodoById, id]);
+
+  useEffect(() => {
+    fetchTodo();
+  }, [fetchTodo, id]);
 
   const handleCreate = async () => {
-    checkRequired();
     try {
-      const response = await createTodo(token, { title, content });
+      checkRequired(title);
+      const response = await createTodo({ title, content });
       navigate(`./${response.data.id}`);
-      setIsEdit(false);
     } catch (error) {
       alert(error);
     }
   };
 
   const handleUpdate = async () => {
-    checkRequired();
     if (id) {
       try {
-        await updateTodo(token, id, { title, content });
+        checkRequired(title);
+        await updateTodo(id, { title, content });
         setIsEdit(false);
       } catch (error) {
         alert(error);
@@ -70,24 +74,33 @@ const Todo = () => {
   const handleDelete = async () => {
     if (id) {
       try {
-        await deleteTodo(token, id);
+        await deleteTodo(id);
         navigate('/');
       } catch (error) {
-        console.error(error);
+        alert(error);
       }
     }
+  };
+
+  const handleCancel = () => {
+    setIsEdit(false);
+    fetchTodo();
   };
 
   return (
     <Wrapper>
       <Header>
         {!id ? (
-          <Button onClick={handleCreate}>Create</Button>
+          <Button disabled={!!titleError} onClick={handleCreate}>
+            Create
+          </Button>
         ) : isEdit ? (
           <>
-            <Button onClick={handleUpdate}>Done</Button>
-            <Button color="error" onClick={handleDelete}>
-              Delete
+            <Button disabled={!!titleError} onClick={handleUpdate}>
+              Done
+            </Button>
+            <Button color="error" onClick={handleCancel}>
+              Cancel
             </Button>
           </>
         ) : (
@@ -106,7 +119,7 @@ const Todo = () => {
         helperText={titleError}
         onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
           setTitle(e.target.value);
-          checkRequired();
+          checkRequired(e.target.value);
         }}
         label="Title"
         required={isEdit}
@@ -118,7 +131,6 @@ const Todo = () => {
         fullWidth
         onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
           setContent(e.target.value);
-          checkRequired();
         }}
         label="Content"
         minRows={5}
