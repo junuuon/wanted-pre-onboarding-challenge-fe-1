@@ -20,7 +20,7 @@ export const GlobalStyle = createGlobalStyle`
 		font-size: ${({ theme }) => theme.typography.fontSize};
     line-height: 1.8rem;
     -webkit-text-size-adjust: none;
-    ${media.tablet}{
+    ${media.mobile}{
       font-size:  ${({ theme }) => theme.typography.body2.fontSize};
     }
     -ms-overflow-style: none;
