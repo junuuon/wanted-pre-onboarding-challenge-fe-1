@@ -9,6 +9,7 @@ import { GlobalStyle } from '@styles/global-style';
 import { theme } from '@styles/theme';
 
 import reportWebVitals from './reportWebVitals';
+import { TodoProvider } from '@contexts/TodoContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -20,7 +21,9 @@ root.render(
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <AuthProvider>
-          <App />
+          <TodoProvider>
+            <App />
+          </TodoProvider>
         </AuthProvider>
       </ThemeProvider>
     </BrowserRouter>

@@ -6,4 +6,12 @@ export interface Todo {
   updatedAt: string;
 }
 
-export type TodoInput = Pick<Todo, "title" | "content">;
+export type TodoInput = Pick<Todo, 'title' | 'content'>;
+
+export interface TodoResponse {
+  data: Todo;
+}
+
+export interface TodosResponse {
+  data: Todo[];
+}
