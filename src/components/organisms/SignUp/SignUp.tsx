@@ -3,10 +3,11 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { Alert, Button, TextField } from '@mui/material';
 
-import { signUp } from '@api/auth';
+import useAuth from '@hooks/useAuth';
 import errorMessage from '@utils/errorMessages';
 
 const SignUp = () => {
+  const { signUp } = useAuth();
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {

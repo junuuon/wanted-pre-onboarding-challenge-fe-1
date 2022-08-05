@@ -9,10 +9,11 @@ import {
   TextField,
 } from '@mui/material';
 
-import { signIn } from '@api/auth';
+import useAuth from '@hooks/useAuth';
 import errorMessage from '@utils/errorMessages';
 
 const SignIn = () => {
+  const { signIn } = useAuth();
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {

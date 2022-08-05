@@ -1,11 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import { MenuItem } from '@mui/material';
 
-import { signOut } from '@api/auth';
+import useAuth from '@hooks/useAuth';
 
 import { AppBar, ToolBar } from './Navbar.style';
 
 const Navbar = () => {
+  const { signOut } = useAuth();
   const navigate = useNavigate();
   const handleSignOut = () => {
     signOut();

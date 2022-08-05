@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import App from '@App';
+import { AuthProvider } from '@contexts/AuthContext';
 import { GlobalStyle } from '@styles/global-style';
 import { theme } from '@styles/theme';
 
@@ -18,7 +19,9 @@ root.render(
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <App />
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>,
