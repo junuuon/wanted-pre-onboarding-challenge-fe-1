@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 
 import useAuth from '@hooks/useAuth';
-import errorMessage from '@utils/errorMessages';
+import parseErrorMessage from '@utils/parseErrorMessage';
 
 const SignIn = () => {
   const { signIn } = useAuth();
@@ -37,7 +37,7 @@ const SignIn = () => {
         navigate('/');
       } catch (error: unknown) {
         setStatus({ success: false });
-        setErrors({ submit: errorMessage(error) });
+        setErrors({ submit: parseErrorMessage(error) });
         setSubmitting(false);
       }
     },

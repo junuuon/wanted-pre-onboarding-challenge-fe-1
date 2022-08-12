@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import { Alert, Button, TextField } from '@mui/material';
 
 import useAuth from '@hooks/useAuth';
-import errorMessage from '@utils/errorMessages';
+import parseErrorMessage from '@utils/parseErrorMessage';
 
 const SignUp = () => {
   const { signUp } = useAuth();
@@ -39,7 +39,7 @@ const SignUp = () => {
         navigate('/auth/sign-in');
       } catch (error: unknown) {
         setStatus({ success: false });
-        setErrors({ submit: errorMessage(error) });
+        setErrors({ submit: parseErrorMessage(error) });
         setSubmitting(false);
       }
     },
